@@ -25,6 +25,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Validation\Rule;
 
 class BlogResource extends Resource
 {
@@ -42,13 +43,14 @@ class BlogResource extends Resource
                     ->aside()
                     // ->collapsible()//not work with aside
                     ->schema([
-                        TextInput::make('title')->required(),
+                        TextInput::make('title')->required(), //numeric method is for number input
                         TextInput::make('slug')->required()->unique('blogs', 'slug', null, true),
                         ColorPicker::make('color')->required(),
                         TagsInput::make('tags')->required(),
                         Select::make('category_id')
                             ->label('Category')
-                            ->options(Category::all()->pluck('name', 'id')),
+                            ->options(Category::all()->pluck('name', 'id'))
+                            ->rules(Rule::exists('categories', 'id')),
                         // ->searchable(),
                         Checkbox::make('published')->required()
                     ])->columns(2),
