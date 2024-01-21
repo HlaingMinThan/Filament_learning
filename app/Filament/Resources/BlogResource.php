@@ -73,13 +73,14 @@ class BlogResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('id')->sortable()->searchable()->toggleable(isToggledHiddenByDefault: true),
                 ImageColumn::make('thumbnail'),
-                TextColumn::make('title'),
-                TextColumn::make('category.name'), //using relationship name
-                TextColumn::make('slug'),
-                ColorColumn::make('color'),
-                TextColumn::make('tags'),
-                CheckboxColumn::make('published')
+                TextColumn::make('title')->sortable()->searchable()->toggleable(),
+                TextColumn::make('category.name')->sortable()->searchable()->toggleable(), //using relationship name
+                TextColumn::make('slug')->sortable()->searchable()->toggleable(),
+                ColorColumn::make('color')->toggleable(),
+                TextColumn::make('tags')->sortable()->searchable()->toggleable(),
+                CheckboxColumn::make('published')->sortable()->searchable()->toggleable()
             ])
             ->filters([
                 //
