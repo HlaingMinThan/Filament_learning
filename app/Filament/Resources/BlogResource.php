@@ -11,6 +11,7 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
@@ -36,17 +37,33 @@ class BlogResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('title')->required(),
-                TextInput::make('slug')->required()->unique('blogs', 'slug', null, true),
-                ColorPicker::make('color')->required(),
-                TagsInput::make('tags')->required(),
-                Select::make('category_id')
-                    ->label('Category')
-                    ->options(Category::all()->pluck('name', 'id')),
-                // ->searchable(),
-                FileUpload::make('thumbnail')->disk('public')->directory('thumbmanails'),
-                MarkdownEditor::make('content')->required(),
-                Checkbox::make('published')->required()
+                Section::make('Create Post')
+                    ->description('create a post over here')
+                    ->aside()
+                    // ->collapsible()//not work with aside
+                    ->schema([
+                        TextInput::make('title')->required(),
+                        TextInput::make('slug')->required()->unique('blogs', 'slug', null, true),
+                        ColorPicker::make('color')->required(),
+                        TagsInput::make('tags')->required(),
+                        Select::make('category_id')
+                            ->label('Category')
+                            ->options(Category::all()->pluck('name', 'id')),
+                        // ->searchable(),
+                        Checkbox::make('published')->required()
+                    ])->columns(2),
+                Section::make('Image')
+                    ->description('Upload image here')
+                    ->aside()
+                    ->schema([
+                        FileUpload::make('thumbnail')->disk('public')->directory('thumbmanails'),
+                    ]),
+                Section::make('Blog Body')
+                    ->description('Upload image here')
+                    ->aside()
+                    ->schema([
+                        MarkdownEditor::make('content')->required(),
+                    ]),
             ]);
     }
 
