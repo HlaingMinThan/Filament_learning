@@ -49,7 +49,8 @@ class BlogResource extends Resource
                         TagsInput::make('tags')->required(),
                         Select::make('category_id')
                             ->label('Category')
-                            ->options(Category::all()->pluck('name', 'id'))
+                            // ->options(Category::all()->pluck('name', 'id'))
+                            ->relationship('category', 'name')
                             ->rules(Rule::exists('categories', 'id')),
                         // ->searchable(),
                         Checkbox::make('published')->required()
