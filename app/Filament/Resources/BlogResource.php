@@ -23,6 +23,9 @@ use Filament\Tables\Columns\CheckboxColumn;
 use Filament\Tables\Columns\ColorColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -91,7 +94,21 @@ class BlogResource extends Resource
                 CheckboxColumn::make('published')->sortable()->searchable()->toggleable()
             ])
             ->filters([
-                //
+                //option - 1 add published filter
+                // Filter::make('Published')->query(function ($query) {
+                //     $query->where('published', true);
+                // }),
+                //optin 2 - yes or no
+                TernaryFilter::make('published'),
+                //Select Filter
+                SelectFilter::make('category_id')
+                    ->label('Category')
+                    // ->options(Category::all()->pluck('name', 'id'))
+                    //rs doesn't load all category by default, we need to add preload
+                    ->relationship('category', 'name')
+                    ->preload()
+                    ->searchable()
+                    ->multiple()
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
