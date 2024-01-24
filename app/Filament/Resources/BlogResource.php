@@ -5,12 +5,15 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\BlogResource\Pages;
 use App\Filament\Resources\BlogResource\RelationManagers;
 use App\Filament\Resources\BlogResource\RelationManagers\AuthorsRelationManager;
+use App\Forms\Components\HelloWorld;
+use App\Forms\Components\YoutubePreview;
 use App\Models\Blog;
 use App\Models\Category;
 use Filament\Forms;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -42,11 +45,13 @@ class BlogResource extends Resource
     {
         return $form
             ->schema([
+
                 Section::make('Create Post')
                     ->description('create a post over here')
                     ->aside()
                     // ->collapsible()//not work with aside
                     ->schema([
+                        YoutubePreview::make('abc'),
                         TextInput::make('title')->required(), //numeric method is for number input
                         TextInput::make('slug')->required()->unique('blogs', 'slug', null, true),
                         ColorPicker::make('color')->required(),
