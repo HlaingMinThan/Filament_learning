@@ -13,8 +13,9 @@
         }
      }">
         <input
+            style="border:1px solid rgba(211, 211, 211, 0.694)"
             x-model="state"
-            class="w-full"
+            class="w-full rounded-xl text-sm"
             x-on:input=" () => {
                 this.state = null;
                 checkAndUpdateYoutubeId()
