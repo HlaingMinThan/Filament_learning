@@ -36,7 +36,7 @@ class AuthorsRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('email'),
-                Tables\Columns\TextColumn::make('order'),
+                Tables\Columns\TextColumn::make('order')->sortable(),
             ])
             ->filters([
                 //
