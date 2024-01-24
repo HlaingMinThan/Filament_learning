@@ -2,7 +2,8 @@
     :component="$getFieldWrapperView()"
     :field="$field"
 >
-    <div x-data="{ 
+    <div
+        x-data="{ 
         state: $wire.$entangle('{{ $getStatePath() }}'),
         checkAndUpdateYoutubeId() {
             const url = this.state;
@@ -11,8 +12,17 @@
             this.state = match && match[1] ? match[1] : null;
             //check if youtube video is playable,if not,set utube id null
         }
-     }">
+        }"
+        x-init=" () => {
+            let input = document.getElementById('youtube-input');
+            input.addEventListener('focus',() => {
+            input.select();
+            })
+            }"
+        }
+    >
         <input
+            id="youtube-input"
             style="border:1px solid rgba(211, 211, 211, 0.694)"
             x-model="state"
             class="w-full rounded-xl text-sm"
