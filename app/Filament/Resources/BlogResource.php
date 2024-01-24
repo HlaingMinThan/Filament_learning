@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\BlogResource\Pages;
 use App\Filament\Resources\BlogResource\RelationManagers;
+use App\Filament\Resources\BlogResource\RelationManagers\AuthorsRelationManager;
 use App\Models\Blog;
 use App\Models\Category;
 use Filament\Forms;
@@ -67,6 +68,12 @@ class BlogResource extends Resource
                     ->schema([
                         MarkdownEditor::make('content')->required(),
                     ]),
+                Section::make('Authors')
+                    ->description('select authors')
+                    ->aside()
+                    ->schema([
+                        Select::make('authors')->relationship('authors', 'name')->required(),
+                    ]),
             ]);
     }
 
@@ -100,7 +107,7 @@ class BlogResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            AuthorsRelationManager::class
         ];
     }
 
