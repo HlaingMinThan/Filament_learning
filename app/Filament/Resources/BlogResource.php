@@ -51,7 +51,7 @@ class BlogResource extends Resource
                     ->aside()
                     // ->collapsible()//not work with aside
                     ->schema([
-                        YoutubePreview::make('abc'),
+                        YoutubePreview::make('youtube_url')->label('Paste Youtube link')->required(),
                         TextInput::make('title')->required(), //numeric method is for number input
                         TextInput::make('slug')->required()->unique('blogs', 'slug', null, true),
                         ColorPicker::make('color')->required(),

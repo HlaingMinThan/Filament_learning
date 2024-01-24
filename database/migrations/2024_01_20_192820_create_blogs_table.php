@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('blogs', function (Blueprint $table) {
             $table->id();
+            $table->string('youtube_url')->nullable();
             $table->string('thumbnail')->nullable();
             $table->string("title");
             $table->string('color');

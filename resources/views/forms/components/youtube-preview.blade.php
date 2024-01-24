@@ -4,30 +4,29 @@
 >
     <div x-data="{ 
         state: $wire.$entangle('{{ $getStatePath() }}'),
-        youtubeId : null,
+        checkAndUpdateYoutubeId() {
+            const url = this.state;
+            const regex = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+            const match = url.match(regex);
+            this.state = match && match[1] ? match[1] : null;
+            //check if youtube video is playable,if not,set utube id null
+        }
      }">
         <input
             x-model="state"
             class="w-full"
             x-on:input=" () => {
-                youtubeId = null;
-                const url = state;
-                const regex = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-                const match = url.match(regex);
-                if (match && match[1]) {
-                    youtubeId = match[1];
-                }else {
-                    youtubeId = null;
-                }
+                this.state = null;
+                checkAndUpdateYoutubeId()
             }
             "
         />
 
-        <template x-if="youtubeId">
+        <template x-if="state">
             <div class="my-4">
                 <iframe
                     width="100%"
-                    x-bind:src="`https://www.youtube.com/embed/${youtubeId}`"
+                    x-bind:src="`https://www.youtube.com/embed/${state}`"
                     title="YouTube video player"
                     frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
