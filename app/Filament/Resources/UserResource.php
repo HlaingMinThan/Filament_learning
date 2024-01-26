@@ -28,6 +28,11 @@ class UserResource extends Resource
             ->schema([
                 TextInput::make('name')->required(),
                 TextInput::make('email')->email(),
+                Select::make('role')->options([
+                    'ADMIN' => 'ADMIN',
+                    'USER' => 'USER',
+                    'EDITOR' => 'EDITOR',
+                ])->required(),
                 TextInput::make('password')->required()->visibleOn('create'),
                 // TextInput::make('password')->required()->readOnly(),
                 // Select::make('names')->options(['Test1', 'Test2']),
@@ -39,6 +44,15 @@ class UserResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name'),
+                TextColumn::make('role')->badge()->color(function ($state) {
+                    if ($state === 'ADMIN') {
+                        return 'danger';
+                    }
+                    if ($state === 'EDITOR') {
+                        return 'warning';
+                    }
+                    return 'info';
+                }),
                 TextColumn::make('email'),
                 // TextColumn::make('password')
             ])
