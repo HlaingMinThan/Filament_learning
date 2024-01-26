@@ -23,4 +23,9 @@ class Blog extends Model
     {
         return $this->belongsToMany(User::class, 'blogs_users')->withPivot(['order'])->withTimestamps();
     }
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
 }

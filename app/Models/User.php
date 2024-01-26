@@ -47,4 +47,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Blog::class, 'blogs_users');
     }
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
 }

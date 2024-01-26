@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\BlogResource\Pages;
 use App\Filament\Resources\BlogResource\RelationManagers;
 use App\Filament\Resources\BlogResource\RelationManagers\AuthorsRelationManager;
+use App\Filament\Resources\BlogResource\RelationManagers\CommentsRelationManager;
 use App\Forms\Components\HelloWorld;
 use App\Forms\Components\YoutubePreview;
 use App\Models\Blog;
@@ -129,7 +130,8 @@ class BlogResource extends Resource
     public static function getRelations(): array
     {
         return [
-            AuthorsRelationManager::class
+            AuthorsRelationManager::class,
+            CommentsRelationManager::class
         ];
     }
 
