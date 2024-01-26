@@ -34,6 +34,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 
 class BlogResource extends Resource
 {
@@ -53,7 +54,16 @@ class BlogResource extends Resource
                     // ->collapsible()//not work with aside
                     ->schema([
                         YoutubePreview::make('youtube_url')->label('Paste Youtube link')->required(),
-                        TextInput::make('title')->required(), //numeric method is for number input
+                        TextInput::make('title')->required()
+                            ->live(debounce: 300)
+                            //params order doesn't matter
+                            ->afterStateUpdated(function (Blog $blog, $operation, $set, $state, $get) {
+                                if ($operation === 'edit') {
+                                    return null;
+                                }
+                                $set('slug', Str::slug($state));
+                                // dd($get('content')); //need to use live on content input to get latest state
+                            }), //numeric method is for number input
                         TextInput::make('slug')->required()->unique('blogs', 'slug', null, true),
                         ColorPicker::make('color')->required(),
                         TagsInput::make('tags')->required(),
@@ -75,7 +85,9 @@ class BlogResource extends Resource
                     ->description('Upload image here')
                     ->aside()
                     ->schema([
-                        MarkdownEditor::make('content')->required(),
+                        MarkdownEditor::make('content')
+                            ->live()
+                            ->required(),
                     ]),
                 Section::make('Authors')
                     ->description('select authors')
