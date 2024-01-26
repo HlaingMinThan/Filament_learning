@@ -41,6 +41,8 @@ class BlogResource extends Resource
     protected static ?string $model = Blog::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Blogs management';
+    protected static ?int $navigationSort = 2;
     protected static ?string $modelLabel = 'Post'; //override navigation label
 
     public static function form(Form $form): Form
